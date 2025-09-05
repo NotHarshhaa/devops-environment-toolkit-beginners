@@ -52,6 +52,7 @@ This will check all installed tools and generate a system report.
    ```
 
 3. **Access your applications:**
+   - **DevOps Toolkit Website**: http://localhost:3002
    - **Web App**: http://localhost:3000
    - **Grafana**: http://localhost:3001 (admin/admin)
    - **Prometheus**: http://localhost:9090
@@ -90,7 +91,14 @@ This will check all installed tools and generate a system report.
 
 ## 🎯 First Steps
 
-### 1. Explore the Templates
+### 1. Explore the Website
+Visit the DevOps Toolkit website at http://localhost:3002 to see:
+- Interactive installation commands
+- Complete tools overview
+- Structured learning path
+- Feature highlights
+
+### 2. Explore the Templates
 ```bash
 ls templates/
 # basic-web-app/     - Simple Node.js application
@@ -98,14 +106,14 @@ ls templates/
 # infrastructure/    - Infrastructure templates
 ```
 
-### 2. Try the Sample Application
+### 3. Try the Sample Application
 ```bash
 cd templates/basic-web-app
 npm install
 npm start
 ```
 
-### 3. Practice with Docker
+### 4. Practice with Docker
 ```bash
 # Build the sample app
 docker build -t my-app .
@@ -117,14 +125,14 @@ docker run -p 3000:3000 my-app
 docker-compose up -d
 ```
 
-### 4. Experiment with Terraform
+### 5. Experiment with Terraform
 ```bash
 cd configs/terraform
 terraform init
 terraform plan
 ```
 
-### 5. Test Ansible
+### 6. Test Ansible
 ```bash
 cd configs/ansible
 ansible-playbook -i inventory.ini playbook.yml
@@ -253,11 +261,12 @@ terraform init
 
 ## 🎉 Next Steps
 
-1. **Explore the examples** in the `examples/` directory
-2. **Try the project templates** in the `templates/` directory
-3. **Customize configurations** in the `configs/` directory
-4. **Join the community** and share your learning journey
-5. **Contribute** to the toolkit by submitting issues and pull requests
+1. **Visit the website** at http://localhost:3002 for interactive guides
+2. **Explore the examples** in the `examples/` directory
+3. **Try the project templates** in the `templates/` directory
+4. **Customize configurations** in the `configs/` directory
+5. **Join the community** and share your learning journey
+6. **Contribute** to the toolkit by submitting issues and pull requests
 
 ## 📞 Support
 
