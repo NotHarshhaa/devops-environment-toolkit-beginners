@@ -1,0 +1,123 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.rulers": [80, 120],
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.cursorBlinking": true,
+  
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.autoStash": true,
+  
+  "docker.showStartPage": false,
+  "docker.containers.sortBy": "CreatedTime",
+  "docker.containers.groupBy": "None",
+  
+  "terraform.format.enable": true,
+  "terraform.format.vars": true,
+  "terraform.languageServer.enable": true,
+  
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml",
+    "https://json.schemastore.org/docker-compose.json": "docker-compose*.yml",
+    "https://json.schemastore.org/kubernetes.json": "k8s/*.yml"
+  },
+  
+  "json.schemas": [
+    {
+      "fileMatch": ["package.json"],
+      "url": "https://json.schemastore.org/package.json"
+    },
+    {
+      "fileMatch": ["tsconfig.json"],
+      "url": "https://json.schemastore.org/tsconfig.json"
+    }
+  ],
+  
+  "python.defaultInterpreterPath": "python3",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.formatting.provider": "black",
+  "python.sortImports.args": ["--profile", "black"],
+  
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.format.semicolons": "insert",
+  "typescript.format.semicolons": "insert",
+  
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.startupEditor": "welcomePage",
+  
+  "extensions.autoUpdate": true,
+  "extensions.autoCheckUpdates": true,
+  
+  "security.workspace.trust.untrustedFiles": "open",
+  
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.terraform": true,
+    "**/venv": true,
+    "**/.venv": true
+  },
+  
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.terraform": true,
+    "**/node_modules": true,
+    "**/venv": true,
+    "**/.venv": true
+  },
+  
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  
+  "breadcrumbs.enabled": true,
+  "outline.showVariables": true,
+  "outline.showFunctions": true,
+  "outline.showClasses": true,
+  
+  "problems.decorations.enabled": true,
+  "problems.showCurrentInStatus": true,
+  
+  "telemetry.telemetryLevel": "off",
+  
+  "update.mode": "start",
+  "update.showReleaseNotes": "onUpdate"
+}

@@ -1,0 +1,292 @@
+{
+  "folders": [
+    {
+      "name": "DevOps Environment Toolkit",
+      "path": "."
+    },
+    {
+      "name": "Configurations",
+      "path": "./configs"
+    },
+    {
+      "name": "Templates",
+      "path": "./templates"
+    },
+    {
+      "name": "Scripts",
+      "path": "./scripts"
+    },
+    {
+      "name": "Examples",
+      "path": "./examples"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+    },
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.rulers": [80, 120],
+    "editor.wordWrap": "on",
+    "editor.minimap.enabled": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": true,
+    
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.cursorBlinking": true,
+    
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "git.autoStash": true,
+    
+    "docker.showStartPage": false,
+    "docker.containers.sortBy": "CreatedTime",
+    "docker.containers.groupBy": "None",
+    
+    "terraform.format.enable": true,
+    "terraform.format.vars": true,
+    "terraform.languageServer.enable": true,
+    
+    "yaml.schemas": {
+      "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml",
+      "https://json.schemastore.org/docker-compose.json": "docker-compose*.yml",
+      "https://json.schemastore.org/kubernetes.json": "k8s/*.yml"
+    },
+    
+    "json.schemas": [
+      {
+        "fileMatch": ["package.json"],
+        "url": "https://json.schemastore.org/package.json"
+      },
+      {
+        "fileMatch": ["tsconfig.json"],
+        "url": "https://json.schemastore.org/tsconfig.json"
+      }
+    ],
+    
+    "python.defaultInterpreterPath": "python3",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "black",
+    "python.sortImports.args": ["--profile", "black"],
+    
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single",
+    "javascript.format.semicolons": "insert",
+    "typescript.format.semicolons": "insert",
+    
+    "emmet.includeLanguages": {
+      "javascript": "javascriptreact",
+      "typescript": "typescriptreact"
+    },
+    
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.startupEditor": "welcomePage",
+    
+    "extensions.autoUpdate": true,
+    "extensions.autoCheckUpdates": true,
+    
+    "security.workspace.trust.untrustedFiles": "open",
+    
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.terraform": true,
+      "**/venv": true,
+      "**/.venv": true
+    },
+    
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/.terraform": true,
+      "**/node_modules": true,
+      "**/venv": true,
+      "**/.venv": true
+    },
+    
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    
+    "breadcrumbs.enabled": true,
+    "outline.showVariables": true,
+    "outline.showFunctions": true,
+    "outline.showClasses": true,
+    
+    "problems.decorations.enabled": true,
+    "problems.showCurrentInStatus": true,
+    
+    "telemetry.telemetryLevel": "off",
+    
+    "update.mode": "start",
+    "update.showReleaseNotes": "onUpdate"
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.vscode-docker",
+      "ms-kubernetes-tools.vscode-kubernetes-tools",
+      "hashicorp.terraform",
+      "redhat.vscode-yaml",
+      "ms-python.python",
+      "ms-vscode.powershell",
+      "ms-vscode.vscode-json",
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-github-actions",
+      "ms-vscode.remote-containers",
+      "ms-vscode.remote-ssh",
+      "ms-azuretools.vscode-docker",
+      "ms-vscode-remote.remote-containers",
+      "ms-vscode-remote.remote-ssh",
+      "ms-vscode-remote.remote-ssh-edit",
+      "ms-vscode.remote-explorer",
+      "ms-vscode.remote-repositories",
+      "github.vscode-pull-request-github",
+      "github.copilot",
+      "github.copilot-chat",
+      "ms-vscode.vscode-typescript-next",
+      "ms-vscode.vscode-eslint",
+      "ms-vscode.vscode-prettier",
+      "ms-vscode.vscode-npm-script",
+      "ms-vscode.vscode-npm",
+      "ms-vscode.vscode-node-azure-pack",
+      "ms-vscode.vscode-node-debug2",
+      "ms-vscode.vscode-node-debug"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Install Tools",
+        "type": "shell",
+        "command": "./install.sh",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Verify Installation",
+        "type": "shell",
+        "command": "./verify.sh",
+        "group": "test",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Start Docker Compose",
+        "type": "shell",
+        "command": "docker-compose up -d",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Stop Docker Compose",
+        "type": "shell",
+        "command": "docker-compose down",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "View Docker Logs",
+        "type": "shell",
+        "command": "docker-compose logs -f",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Start Sample App",
+        "type": "shell",
+        "command": "cd templates/basic-web-app && npm install && npm start",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Node.js App",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/templates/basic-web-app/server.js",
+        "cwd": "${workspaceFolder}/templates/basic-web-app",
+        "env": {
+          "NODE_ENV": "development",
+          "PORT": "3000"
+        },
+        "console": "integratedTerminal",
+        "restart": true,
+        "protocol": "inspector"
+      },
+      {
+        "name": "Attach to Docker Container",
+        "type": "node",
+        "request": "attach",
+        "port": 9229,
+        "restart": true,
+        "localRoot": "${workspaceFolder}/templates/basic-web-app",
+        "remoteRoot": "/app",
+        "protocol": "inspector"
+      }
+    ]
+  }
+}
