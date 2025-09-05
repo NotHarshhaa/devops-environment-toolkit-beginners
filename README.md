@@ -3,7 +3,7 @@
 > **One-click setup for your DevOps journey** - Get all essential tools installed and configured in minutes!
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue)](https://github.com/harshhaa/devops-environment-toolkit)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue)](https://github.com/NotHarshhaa/devops-environment-toolkit-beginners)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 ## ✨ What This Toolkit Does
@@ -27,17 +27,17 @@ This lightweight toolkit automatically installs and configures all the essential
 
 ### Linux/macOS
 ```bash
-curl -fsSL https://raw.githubusercontent.com/harshhaa/devops-environment-toolkit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/NotHarshhaa/devops-environment-toolkit-beginners/master/install.sh | bash
 ```
 
 ### Windows (PowerShell)
 ```powershell
-iwr -useb https://raw.githubusercontent.com/harshhaa/devops-environment-toolkit/main/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/NotHarshhaa/devops-environment-toolkit-beginners/master/install.ps1 | iex
 ```
 
 ### Manual Installation
 ```bash
-git clone https://github.com/harshhaa/devops-environment-toolkit.git
+git clone https://github.com/NotHarshhaa/devops-environment-toolkit-beginners.git
 cd devops-environment-toolkit
 chmod +x install.sh
 ./install.sh
@@ -128,9 +128,9 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ## 📞 Support
 
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/harshhaa/devops-environment-toolkit/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/harshhaa/devops-environment-toolkit/discussions)
-- 📧 **Email**: [harshhaa@example.com](mailto:harshhaa@example.com)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/NotHarshhaa/devops-environment-toolkit-beginners/issues)
+- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/NotHarshhaa/devops-environment-toolkit-beginners/discussions)
+- 📧 **Email**: [harshhaa@gmail.com](mailto:harshhaa@gmail.com)
 
 ## 📄 License
 
@@ -146,6 +146,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Ready to start your DevOps journey?** 🚀
 
-[![Install Now](https://img.shields.io/badge/Install%20Now-FF6B6B?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/harshhaa/devops-environment-toolkit)
+[![Install Now](https://img.shields.io/badge/Install%20Now-FF6B6B?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/NotHarshhaa/devops-environment-toolkit-beginners)
 
 *Star ⭐ this repo if you found it helpful!*
