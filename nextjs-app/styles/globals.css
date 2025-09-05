@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @layer base {
   html {
@@ -11,10 +11,40 @@
   }
   
   body {
-    font-family: 'Inter', system-ui, sans-serif;
-    overflow-x: hidden;
-    max-width: 100vw;
-  }
+  font-family: 'Rajdhani', sans-serif;
+  line-height: 1.6;
+  color: #00ff00;
+  background: #0a0a0a;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Light theme overrides */
+.light body {
+  color: #2c3e50;
+  background: #f8f9fa;
+}
+
+.light .retro-bg {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
+}
+
+.light .retro-bg::before {
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0, 188, 212, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(156, 39, 176, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(233, 30, 99, 0.03) 0%, transparent 50%);
+}
+
+.light .gradient-bg {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 25%, #dee2e6 50%, #e9ecef 75%, #f8f9fa 100%);
+}
+
+.light .gradient-bg::before {
+  background: 
+    linear-gradient(45deg, transparent 30%, rgba(0, 188, 212, 0.05) 50%, transparent 70%),
+    linear-gradient(-45deg, transparent 30%, rgba(156, 39, 176, 0.05) 50%, transparent 70%);
+}
   
   code {
     font-family: 'JetBrains Mono', monospace;
@@ -24,6 +54,7 @@
     overflow-x: auto;
     word-wrap: break-word;
     word-break: break-all;
+    @apply font-mono text-retro-text bg-retro-darker border border-retro-green p-4 rounded-none;
   }
   
   header {
@@ -37,23 +68,361 @@
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-devops-blue text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200 shadow-lg hover:shadow-xl text-sm md:text-base;
+  /* Retro-tech base styles */
+  .retro-bg {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    position: relative;
   }
-  
-  .btn-secondary {
-    @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-4 py-2 md:px-6 md:py-3 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 border border-gray-300 dark:border-gray-600 text-sm md:text-base;
+
+  .retro-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(128, 0, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(255, 0, 128, 0.05) 0%, transparent 50%);
+    pointer-events: none;
   }
-  
-  .card {
-    @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 md:p-6 hover:shadow-xl dark:hover:shadow-2xl transition-all duration-300;
-  }
-  
+
   .gradient-bg {
-    @apply bg-gradient-to-br from-devops-blue via-purple-600 to-devops-green;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%, #0a0a0a 100%);
+    position: relative;
   }
-  
-  .text-gradient {
-    @apply bg-gradient-to-r from-devops-blue to-devops-green bg-clip-text text-transparent;
+
+  .gradient-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.1) 50%, transparent 70%),
+      linear-gradient(-45deg, transparent 30%, rgba(128, 0, 255, 0.1) 50%, transparent 70%);
+    animation: scanLine 3s linear infinite;
+    pointer-events: none;
+  }
+
+  /* Retro button styles - clean text, no shadows */
+  .btn-primary {
+    @apply bg-transparent border-2 border-retro-cyan text-retro-cyan hover:bg-retro-cyan hover:text-retro-dark font-retro font-semibold py-3 px-6 rounded-none transition-all duration-300 relative overflow-hidden;
+    text-shadow: none;
+    box-shadow: 0 0 5px rgba(0, 188, 212, 0.1);
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 188, 212, 0.05), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-primary:hover::before {
+    left: 100%;
+  }
+
+  .btn-primary:hover {
+    text-shadow: none;
+    box-shadow: 0 0 8px rgba(0, 188, 212, 0.2);
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border-2 border-retro-purple text-retro-purple hover:bg-retro-purple hover:text-retro-dark font-retro font-semibold py-3 px-6 rounded-none transition-all duration-300 relative overflow-hidden;
+    text-shadow: none;
+    box-shadow: 0 0 5px rgba(156, 39, 176, 0.1);
+  }
+
+  .btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(156, 39, 176, 0.05), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-secondary:hover::before {
+    left: 100%;
+  }
+
+  .btn-secondary:hover {
+    text-shadow: none;
+    box-shadow: 0 0 8px rgba(156, 39, 176, 0.2);
+  }
+
+  /* Light theme button styles */
+  .light .btn-primary {
+    @apply border-retro-cyan text-retro-cyan hover:bg-retro-cyan hover:text-white;
+    text-shadow: none;
+    box-shadow: 0 0 3px rgba(0, 188, 212, 0.2);
+  }
+
+  .light .btn-primary:hover {
+    text-shadow: none;
+    box-shadow: 0 0 5px rgba(0, 188, 212, 0.3);
+  }
+
+  .light .btn-secondary {
+    @apply border-retro-purple text-retro-purple hover:bg-retro-purple hover:text-white;
+    text-shadow: none;
+    box-shadow: 0 0 3px rgba(156, 39, 176, 0.2);
+  }
+
+  .light .btn-secondary:hover {
+    text-shadow: none;
+    box-shadow: 0 0 5px rgba(156, 39, 176, 0.3);
+  }
+
+  /* Retro card styles */
+  .card {
+    @apply bg-retro-gray border border-retro-border rounded-none p-6 transition-all duration-300 hover:scale-105 relative overflow-hidden;
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.1);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(0, 188, 212, 0.03) 50%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover::before {
+    opacity: 1;
+  }
+
+  .card:hover {
+    box-shadow: 0 0 15px rgba(0, 188, 212, 0.2);
+    border-color: #00bcd4;
+  }
+
+  /* Light theme card styles */
+  .light .card {
+    @apply bg-white border-gray-300;
+    box-shadow: 0 0 5px rgba(0, 188, 212, 0.1);
+  }
+
+  .light .card:hover {
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.2);
+    border-color: #00bcd4;
+  }
+
+  /* Terminal-style code blocks */
+  .terminal {
+    @apply bg-retro-darker border border-retro-green rounded-none p-4 font-mono text-retro-text relative;
+    box-shadow: inset 0 0 10px rgba(76, 175, 80, 0.1);
+  }
+
+  .terminal::before {
+    content: '> ';
+    color: #4caf50;
+    font-weight: bold;
+  }
+
+  /* Light theme terminal styles */
+  .light .terminal {
+    @apply bg-gray-100 border-gray-400 text-gray-800;
+    box-shadow: inset 0 0 5px rgba(76, 175, 80, 0.1);
+  }
+
+  .light .terminal::before {
+    color: #4caf50;
+  }
+
+  /* Glitch effect */
+  .glitch {
+    position: relative;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .glitch::before {
+    animation: glitch 0.3s ease-in-out infinite;
+    color: #ff0080;
+    z-index: -1;
+  }
+
+  .glitch::after {
+    animation: glitch 0.3s ease-in-out infinite reverse;
+    color: #00ffff;
+    z-index: -2;
+  }
+
+  /* Retro text colors - no effects, just clean colors */
+  .neon-text {
+    text-shadow: none;
+  }
+
+  .neon-cyan {
+    color: #00bcd4;
+    text-shadow: none;
+  }
+
+  .neon-purple {
+    color: #9c27b0;
+    text-shadow: none;
+  }
+
+  .neon-green {
+    color: #4caf50;
+    text-shadow: none;
+  }
+
+  .neon-yellow {
+    color: #ffc107;
+    text-shadow: none;
+  }
+
+  .neon-pink {
+    color: #e91e63;
+    text-shadow: none;
+  }
+
+  .neon-blue {
+    color: #2196f3;
+    text-shadow: none;
+  }
+
+  .neon-orange {
+    color: #ff9800;
+    text-shadow: none;
+  }
+
+  .neon-red {
+    color: #f44336;
+    text-shadow: none;
+  }
+
+  /* Light theme colors - darker for better contrast */
+  .light .neon-cyan {
+    color: #006064;
+    text-shadow: none;
+  }
+
+  .light .neon-purple {
+    color: #4a148c;
+    text-shadow: none;
+  }
+
+  .light .neon-green {
+    color: #1b5e20;
+    text-shadow: none;
+  }
+
+  .light .neon-yellow {
+    color: #e65100;
+    text-shadow: none;
+  }
+
+  .light .neon-pink {
+    color: #880e4f;
+    text-shadow: none;
+  }
+
+  .light .neon-blue {
+    color: #0d47a1;
+    text-shadow: none;
+  }
+
+  .light .neon-orange {
+    color: #e65100;
+    text-shadow: none;
+  }
+
+  .light .neon-red {
+    color: #b71c1c;
+    text-shadow: none;
+  }
+
+  /* Matrix rain effect */
+  .matrix-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .matrix-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(90deg, transparent 98%, #00ff00 100%),
+      linear-gradient(0deg, transparent 98%, #00ff00 100%);
+    background-size: 3px 3px;
+    opacity: 0.1;
+    animation: matrixRain 20s linear infinite;
+  }
+
+  /* Dark mode overrides */
+  .dark body {
+    color: #00ff00;
+    background: #0a0a0a;
+  }
+
+  .dark .card {
+    @apply bg-retro-gray text-retro-text border-retro-border;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 640px) {
+    .btn-primary, .btn-secondary {
+      @apply px-4 py-2 text-sm;
+    }
+    
+    .card {
+      @apply p-4;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .btn-primary, .btn-secondary {
+      @apply px-6 py-3 text-base;
+    }
+    
+    .card {
+      @apply p-6;
+    }
+  }
+
+  /* Retro scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #00ffff;
+    box-shadow: 0 0 10px #00ffff;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00ccff;
   }
 }

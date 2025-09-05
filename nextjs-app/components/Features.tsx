@@ -1,49 +1,49 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Zap, Shield, Palette, Globe, Settings, BookOpen } from 'lucide-react'
+import { Zap, Shield, Clock, Users, Code, Database } from 'lucide-react'
 
 const Features = () => {
   const features = [
     {
       icon: Zap,
-      title: 'Lightning Fast',
-      description: 'Optimized installation process that gets you up and running in minutes',
-      color: 'text-yellow-500'
-    },
-    {
-      icon: Palette,
-      title: 'Pre-configured',
-      description: 'Tools come with sensible defaults and configurations out of the box',
-      color: 'text-purple-500'
-    },
-    {
-      icon: Settings,
-      title: 'Customizable',
-      description: 'Easy to modify and extend to fit your specific needs',
-      color: 'text-blue-500'
-    },
-    {
-      icon: Globe,
-      title: 'Cross-Platform',
-      description: 'Works seamlessly on Linux, macOS, and Windows',
-      color: 'text-green-500'
+      title: 'Lightning Fast Setup',
+      description: 'Get your entire DevOps environment running in under 5 minutes with our optimized installation scripts.',
+      color: 'retro-yellow'
     },
     {
       icon: Shield,
-      title: 'Safe',
-      description: 'Non-destructive installation with rollback options',
-      color: 'text-red-500'
+      title: 'Production Ready',
+      description: 'All tools come pre-configured with security best practices and production-ready settings.',
+      color: 'retro-green'
     },
     {
-      icon: BookOpen,
-      title: 'Beginner-Friendly',
-      description: 'Clear documentation and examples for every tool',
-      color: 'text-indigo-500'
+      icon: Clock,
+      title: 'Time Saving',
+      description: 'Skip weeks of manual configuration. Focus on building instead of setting up infrastructure.',
+      color: 'retro-cyan'
+    },
+    {
+      icon: Users,
+      title: 'Team Friendly',
+      description: 'Consistent environments across your entire team. No more "works on my machine" issues.',
+      color: 'retro-purple'
+    },
+    {
+      icon: Code,
+      title: 'Developer First',
+      description: 'Built by developers, for developers. Every tool is configured with developer experience in mind.',
+      color: 'retro-pink'
+    },
+    {
+      icon: Database,
+      title: 'Comprehensive Stack',
+      description: 'From containers to monitoring, CI/CD to databases - everything you need in one toolkit.',
+      color: 'retro-orange'
     }
   ]
 
   return (
-    <section className="py-12 md:py-20 px-4 bg-white dark:bg-gray-800 transition-colors duration-300">
+    <section id="features" className="py-12 md:py-20 px-4 retro-bg">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -52,34 +52,49 @@ const Features = () => {
           viewport={{ once: true }}
           className="text-center mb-12 md:mb-16"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">
-            Why Choose Our Toolkit?
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 font-retro">
+            <span className="neon-cyan">
+              Why Choose Our Toolkit?
+            </span>
           </h2>
-          <p className="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Our DevOps Environment Toolkit is designed to eliminate the complexity of setting up a development environment, 
-            so you can focus on what matters most - building amazing applications.
+          <p className="text-base md:text-xl text-retro-text-dim max-w-3xl mx-auto font-cyber">
+            Experience the power of modern DevOps tools with a retro-tech aesthetic that makes development feel like hacking the matrix.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {features.map((feature, index) => (
             <motion.div
-              key={feature.title}
+              key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="card group hover:scale-105 transition-transform duration-300"
+              className={`card border-${feature.color} hover:border-${feature.color} bg-retro-gray/80 backdrop-blur-sm`}
             >
-              <div className={`w-10 h-10 md:w-12 md:h-12 ${feature.color} mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                <feature.icon className="w-full h-full" />
+              <div className="flex items-center gap-3 mb-3">
+                <feature.icon className={`w-6 h-6 md:w-8 md:h-8 text-${feature.color}`} />
+                <h3 className={`text-base md:text-lg font-semibold text-${feature.color} font-retro`}>
+                  {feature.title}
+                </h3>
               </div>
-              <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2 md:mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p className="text-sm md:text-base text-retro-text-dim font-cyber leading-relaxed">
                 {feature.description}
               </p>
+              
+              {/* Terminal-style progress bar */}
+              <div className="mt-4 bg-retro-darker border border-retro-border rounded-none p-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 bg-retro-green rounded-none animate-pulse"></div>
+                  <span className="text-xs text-retro-green font-mono">SYSTEM_READY</span>
+                </div>
+                <div className="w-full bg-retro-gray rounded-none h-1">
+                  <div 
+                    className={`h-1 bg-${feature.color} rounded-none transition-all duration-1000`}
+                    style={{ width: '100%' }}
+                  ></div>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>

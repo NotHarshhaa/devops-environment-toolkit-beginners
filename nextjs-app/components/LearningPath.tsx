@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Calendar, CheckCircle, ArrowRight, BookOpen, Code, Monitor } from 'lucide-react'
+import { Calendar, CheckCircle, ArrowRight, BookOpen, Code, Monitor, Cpu, HardDrive, Zap } from 'lucide-react'
 
 const LearningPath = () => {
   const weeks = [
@@ -8,7 +8,7 @@ const LearningPath = () => {
       week: 1,
       title: 'Containerization',
       icon: Code,
-      color: 'bg-blue-500',
+      color: 'retro-cyan',
       topics: [
         'Learn Docker basics',
         'Create your first Dockerfile',
@@ -20,7 +20,7 @@ const LearningPath = () => {
       week: 2,
       title: 'Version Control & CI/CD',
       icon: BookOpen,
-      color: 'bg-green-500',
+      color: 'retro-green',
       topics: [
         'Master Git workflows',
         'Set up GitHub Actions',
@@ -32,7 +32,7 @@ const LearningPath = () => {
       week: 3,
       title: 'Infrastructure as Code',
       icon: Monitor,
-      color: 'bg-purple-500',
+      color: 'retro-purple',
       topics: [
         'Learn Terraform basics',
         'Deploy infrastructure to AWS',
@@ -44,7 +44,7 @@ const LearningPath = () => {
       week: 4,
       title: 'Monitoring & Observability',
       icon: Monitor,
-      color: 'bg-red-500',
+      color: 'retro-pink',
       topics: [
         'Set up Prometheus and Grafana',
         'Learn about metrics and dashboards',
@@ -56,7 +56,7 @@ const LearningPath = () => {
       week: 5,
       title: 'Kubernetes',
       icon: Code,
-      color: 'bg-indigo-500',
+      color: 'retro-blue',
       topics: [
         'Learn kubectl commands',
         'Deploy applications to Kubernetes',
@@ -68,7 +68,7 @@ const LearningPath = () => {
       week: 6,
       title: 'Cloud Platforms',
       icon: Monitor,
-      color: 'bg-orange-500',
+      color: 'retro-orange',
       topics: [
         'Explore AWS services',
         'Try Azure resources',
@@ -79,7 +79,7 @@ const LearningPath = () => {
   ]
 
   return (
-    <section className="py-12 md:py-20 px-4 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <section id="learning-path" className="py-12 md:py-20 px-4 retro-bg">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -88,14 +88,31 @@ const LearningPath = () => {
           viewport={{ once: true }}
           className="text-center mb-12 md:mb-16"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6">
-            🎓 Learning Path
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 font-retro">
+            <span className="neon-yellow">
+              🎓 Learning Path
+            </span>
           </h2>
-          <p className="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-base md:text-xl text-retro-text-dim max-w-3xl mx-auto font-cyber">
             Follow our structured 6-week learning path to master DevOps fundamentals. 
             Each week builds upon the previous, taking you from beginner to confident practitioner.
           </p>
         </motion.div>
+
+        {/* System Status */}
+        <div className="terminal mb-8 p-4 bg-retro-darker border border-retro-border">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Cpu className="w-4 h-4 text-retro-green animate-pulse" />
+              <span className="text-retro-green text-sm font-mono">LEARNING_SYSTEM: ACTIVE</span>
+              <div className="w-2 h-2 bg-retro-green rounded-none animate-pulse"></div>
+            </div>
+            <div className="flex items-center gap-2">
+              <HardDrive className="w-3 h-3 text-retro-cyan" />
+              <span className="text-retro-cyan text-xs font-mono">PROGRESS_TRACKING: ENABLED</span>
+            </div>
+          </div>
+        </div>
 
         <div className="space-y-6 md:space-y-8">
           {weeks.map((week, index) => (
@@ -109,22 +126,22 @@ const LearningPath = () => {
             >
               {/* Week Number & Icon */}
               <div className="flex-shrink-0">
-                <div className={`w-16 h-16 md:w-20 md:h-20 ${week.color} rounded-full flex items-center justify-center text-white font-bold text-lg md:text-xl shadow-lg`}>
+                <div className={`w-16 h-16 md:w-20 md:h-20 bg-${week.color} border border-${week.color} rounded-none flex items-center justify-center text-retro-dark font-retro font-bold text-lg md:text-xl shadow-lg neon-text`}>
                   {week.week}
                 </div>
               </div>
 
               {/* Content */}
-              <div className="flex-1 bg-white dark:bg-gray-800 rounded-xl p-6 md:p-8 shadow-lg">
+              <div className={`card border-${week.color} bg-retro-gray/80 backdrop-blur-sm flex-1`}>
                 <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
-                  <div className={`w-10 h-10 md:w-12 md:h-12 ${week.color} rounded-lg flex items-center justify-center`}>
-                    <week.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                  <div className={`w-10 h-10 md:w-12 md:h-12 bg-${week.color} border border-${week.color} rounded-none flex items-center justify-center`}>
+                    <week.icon className="w-5 h-5 md:w-6 md:h-6 text-retro-dark" />
                   </div>
                   <div>
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+                    <h3 className={`text-xl md:text-2xl font-bold text-${week.color} font-retro`}>
                       Week {week.week}: {week.title}
                     </h3>
-                    <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
+                    <p className="text-sm md:text-base text-retro-text-dim font-cyber">
                       {week.week === 1 && 'Foundation'}
                       {week.week === 2 && 'Automation'}
                       {week.week === 3 && 'Infrastructure'}
@@ -135,20 +152,41 @@ const LearningPath = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                  {week.topics.map((topic, topicIndex) => (
-                    <div key={topicIndex} className="flex items-center gap-2 md:gap-3">
-                      <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-sm md:text-base text-gray-700 dark:text-gray-300">{topic}</span>
-                    </div>
-                  ))}
+                {/* Terminal-style topics list */}
+                <div className="terminal bg-retro-darker border border-retro-border p-4 rounded-none">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Zap className="w-3 h-3 text-retro-green" />
+                    <span className="text-retro-green text-xs font-mono">LEARNING_OBJECTIVES</span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {week.topics.map((topic, topicIndex) => (
+                      <div key={topicIndex} className="flex items-center gap-2 md:gap-3">
+                        <div className="w-1 h-1 bg-retro-green rounded-none animate-pulse"></div>
+                        <span className="text-xs md:text-sm text-retro-text font-mono">{topic}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Progress indicator */}
+                <div className="mt-4 bg-retro-darker border border-retro-border rounded-none p-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs text-retro-text-dim font-mono">COMPLETION</span>
+                    <span className="text-xs text-retro-green font-mono">{Math.round((week.week / 6) * 100)}%</span>
+                  </div>
+                  <div className="w-full bg-retro-gray rounded-none h-1">
+                    <div 
+                      className={`h-1 bg-${week.color} rounded-none transition-all duration-1000`}
+                      style={{ width: `${(week.week / 6) * 100}%` }}
+                    ></div>
+                  </div>
                 </div>
               </div>
 
               {/* Arrow */}
               {index < weeks.length - 1 && (
                 <div className="hidden lg:block">
-                  <ArrowRight className="w-6 h-6 md:w-8 md:h-8 text-gray-400 dark:text-gray-500" />
+                  <ArrowRight className="w-6 h-6 md:w-8 md:h-8 text-retro-text-dim animate-pulse" />
                 </div>
               )}
             </motion.div>
@@ -162,11 +200,11 @@ const LearningPath = () => {
           viewport={{ once: true }}
           className="text-center mt-12 md:mt-16"
         >
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 md:p-8 shadow-lg max-w-2xl mx-auto">
-            <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">
+          <div className="card border-retro-cyan bg-retro-gray/80 backdrop-blur-sm max-w-2xl mx-auto">
+            <h3 className="text-xl md:text-2xl font-bold text-retro-cyan mb-3 md:mb-4 font-retro">
               Ready to Start Your Journey?
             </h3>
-            <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6">
+            <p className="text-sm md:text-base text-retro-text-dim mb-4 md:mb-6 font-cyber">
               Join thousands of developers who have accelerated their DevOps learning with our toolkit.
             </p>
             <button className="btn-primary text-base md:text-lg px-6 md:px-8 py-3 md:py-4">

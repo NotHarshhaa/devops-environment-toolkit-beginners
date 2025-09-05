@@ -24,7 +24,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
       
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 overflow-x-hidden">
+      <div className="min-h-screen retro-bg dark:retro-bg light:bg-retro-light-bg transition-colors duration-300 overflow-x-hidden">
         <Header />
         <div>
           <Hero />

@@ -44,11 +44,13 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   useEffect(() => {
     if (mounted) {
       localStorage.setItem('theme', theme)
-      // Update document class for Tailwind dark mode
+      // Update document class for Tailwind dark mode and our custom light class
       if (theme === 'dark') {
         document.documentElement.classList.add('dark')
+        document.documentElement.classList.remove('light')
       } else {
         document.documentElement.classList.remove('dark')
+        document.documentElement.classList.add('light')
       }
     }
   }, [theme, mounted])
