@@ -101,7 +101,8 @@ chmod +x install.sh
 devops-environment-toolkit/
 ├── install.sh              # Main installation script (Linux/macOS)
 ├── install.ps1             # Windows installation script
-├── verify.sh               # Tool verification script
+├── verify.sh               # Tool verification script (Linux/macOS)
+├── verify.ps1              # Tool verification script (Windows)
 ├── configs/                # Configuration files
 │   ├── docker/             # Docker configurations
 │   └── vscode/             # VS Code settings

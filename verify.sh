@@ -81,9 +81,6 @@ get_version() {
         "git")
             git --version 2>/dev/null | sed 's/git version //'
             ;;
-        "gh")
-            gh --version 2>/dev/null | head -n1 | sed 's/gh version //'
-            ;;
         "terraform")
             terraform --version 2>/dev/null | head -n1 | sed 's/Terraform v//'
             ;;
@@ -93,8 +90,8 @@ get_version() {
         "kubectl")
             kubectl version --client 2>/dev/null | grep "Client Version" | sed 's/.*GitVersion:"v//' | sed 's/".*//'
             ;;
-        "helm")
-            helm version --short 2>/dev/null | sed 's/v//'
+        "minikube")
+            minikube version 2>/dev/null | head -n1 | sed 's/minikube version: v//'
             ;;
         "aws")
             aws --version 2>/dev/null | sed 's/aws-cli\///' | sed 's/ .*//'
@@ -102,23 +99,8 @@ get_version() {
         "az")
             az --version 2>/dev/null | head -n1 | sed 's/azure-cli //'
             ;;
-        "gcloud")
-            gcloud --version 2>/dev/null | head -n1 | sed 's/Google Cloud SDK //'
-            ;;
-        "jq")
-            jq --version 2>/dev/null | sed 's/jq-//'
-            ;;
-        "curl")
-            curl --version 2>/dev/null | head -n1 | sed 's/curl //' | sed 's/ .*//'
-            ;;
-        "wget")
-            wget --version 2>/dev/null | head -n1 | sed 's/GNU Wget //' | sed 's/ .*//'
-            ;;
-        "tree")
-            tree --version 2>/dev/null | sed 's/tree v//' | sed 's/ .*//'
-            ;;
-        "htop")
-            htop --version 2>/dev/null | sed 's/htop //' | sed 's/ .*//'
+        "code")
+            code --version 2>/dev/null | head -n1
             ;;
         *)
             $cmd --version 2>/dev/null | head -n1 || echo "Unknown"
@@ -151,12 +133,8 @@ check_vscode_extensions() {
             "ms-kubernetes-tools.vscode-kubernetes-tools"
             "hashicorp.terraform"
             "redhat.vscode-yaml"
-            "ms-python.python"
-            "ms-vscode.powershell"
             "ms-vscode.vscode-json"
-            "bradlc.vscode-tailwindcss"
-            "esbenp.prettier-vscode"
-            "ms-vscode.vscode-github-actions"
+            "ms-vscode.powershell"
         )
         
         local installed_count=0
@@ -246,7 +224,7 @@ generate_report() {
         echo
         
         echo "Installed Tools:"
-        local tools=("docker" "docker-compose" "git" "gh" "terraform" "ansible" "kubectl" "helm" "aws" "az" "gcloud" "jq" "curl" "wget" "tree" "htop")
+        local tools=("docker" "docker-compose" "git" "terraform" "ansible" "kubectl" "minikube" "aws" "az" "code")
         for tool in "${tools[@]}"; do
             if command -v "$tool" >/dev/null 2>&1; then
                 local version=$(get_version "$tool")
@@ -299,7 +277,7 @@ main() {
     
     # Core tools
     log_info "Checking core tools..."
-    local core_tools=("docker" "docker-compose" "git" "gh")
+    local core_tools=("docker" "docker-compose" "git")
     for tool in "${core_tools[@]}"; do
         ((total_checks++))
         if check_command "$tool" "$tool"; then
@@ -308,9 +286,9 @@ main() {
     done
     echo
     
-    # Infrastructure tools (basic)
+    # Infrastructure tools
     log_info "Checking infrastructure tools..."
-    local infra_tools=("terraform" "kubectl" "helm")
+    local infra_tools=("terraform" "ansible" "kubectl" "minikube")
     for tool in "${infra_tools[@]}"; do
         ((total_checks++))
         if check_command "$tool" "$tool"; then
@@ -321,7 +299,7 @@ main() {
     
     # Cloud CLIs
     log_info "Checking cloud CLIs..."
-    local cloud_tools=("aws" "az" "gcloud")
+    local cloud_tools=("aws" "az")
     for tool in "${cloud_tools[@]}"; do
         ((total_checks++))
         if check_command "$tool" "$tool"; then
@@ -330,10 +308,10 @@ main() {
     done
     echo
     
-    # Utilities
-    log_info "Checking utilities..."
-    local util_tools=("jq" "curl" "wget" "tree" "htop")
-    for tool in "${util_tools[@]}"; do
+    # Development tools
+    log_info "Checking development tools..."
+    local dev_tools=("code")
+    for tool in "${dev_tools[@]}"; do
         ((total_checks++))
         if check_command "$tool" "$tool"; then
             ((passed_checks++))
