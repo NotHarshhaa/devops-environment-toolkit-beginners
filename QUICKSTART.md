@@ -9,26 +9,100 @@ Welcome to the DevOps Environment Toolkit for Beginners! This guide will get you
 - **Internet connection** for downloading tools
 - **Administrator/Sudo access** (recommended)
 
-## ⚡ One-Command Local Installation
+## ⚡ Enhanced Installation Options
 
-Perfect for beginners - just run one command and everything gets installed on your local machine!
+Perfect for beginners - choose from multiple installation modes with advanced features!
 
-### Linux/macOS
+### 🚀 Standard Installation (All Tools)
 ```bash
-curl -fsSL https://raw.githubusercontent.com/harshhaa/devops-environment-toolkit/main/install.sh | bash
+# Linux/macOS
+./install.sh
+
+# Windows PowerShell
+.\install.ps1
 ```
 
-### Windows (PowerShell)
-```powershell
+### 🎯 Selective Installation (Choose Your Tools)
+```bash
+# Linux/macOS - Interactive menu to choose tools
+./install.sh --selective
+
+# Windows PowerShell - Interactive menu to choose tools
+.\install.ps1 -Selective
+```
+
+### 🔍 Preview Installation (See What Would Be Installed)
+```bash
+# Linux/macOS - Dry run mode
+./install.sh --dry-run
+
+# Windows PowerShell - Dry run mode
+.\install.ps1 -DryRun
+```
+
+### 📋 Other Installation Options
+```bash
+# Linux/macOS
+./install.sh --verbose --skip-confirmation  # Detailed output, no prompts
+./install.sh --help                        # Show all options
+
+# Windows PowerShell
+.\install.ps1 -Verbose -SkipConfirmation   # Detailed output, no prompts
+.\install.ps1 -Help                        # Show all options
+```
+
+### 🌐 Remote Installation
+```bash
+# Linux/macOS
+curl -fsSL https://raw.githubusercontent.com/harshhaa/devops-environment-toolkit/main/install.sh | bash
+
+# Windows PowerShell
 iwr -useb https://raw.githubusercontent.com/harshhaa/devops-environment-toolkit/main/install.ps1 | iex
 ```
 
-### Manual Installation
+## 🆕 Enhanced Installation Features
+
+The installation scripts now include advanced features for a better user experience:
+
+### ✨ New Features
+- **Interactive Menu**: Choose which tools to install
+- **Progress Tracking**: Visual progress bars with percentage completion
+- **Comprehensive Logging**: Detailed logs saved to files
+- **Error Recovery**: Automatic backup and restore functionality
+- **System Validation**: Checks disk space, memory, and internet connectivity
+- **Health Checks**: Verifies all tools are working correctly after installation
+- **Installation Reports**: Detailed reports with next steps and support links
+
+### 📚 Support Documentation Links
+After successful installation, you'll see helpful documentation links for each tool:
+- **Git**: https://git-scm.com/doc
+- **Docker**: https://docs.docker.com/
+- **Docker Compose**: https://docs.docker.com/compose/
+- **Kubernetes**: https://kubernetes.io/docs/
+- **Minikube**: https://minikube.sigs.k8s.io/docs/
+- **Terraform**: https://developer.hashicorp.com/terraform/docs
+- **Ansible**: https://docs.ansible.com/
+- **VS Code**: https://code.visualstudio.com/docs
+- **AWS CLI**: https://docs.aws.amazon.com/cli/
+- **Azure CLI**: https://docs.microsoft.com/en-us/cli/azure/
+
+### 🔧 Installation Options
 ```bash
-git clone https://github.com/harshhaa/devops-environment-toolkit.git
-cd devops-environment-toolkit
-chmod +x install.sh
-./install.sh
+# Linux/macOS
+./install.sh --help              # Show all options
+./install.sh --verbose           # Detailed output
+./install.sh --dry-run           # Preview installation
+./install.sh --selective         # Choose tools interactively
+./install.sh --skip-confirmation # Skip prompts
+./install.sh --recover           # Restore from backup
+
+# Windows PowerShell
+.\install.ps1 -Help              # Show all options
+.\install.ps1 -Verbose           # Detailed output
+.\install.ps1 -DryRun            # Preview installation
+.\install.ps1 -Selective         # Choose tools interactively
+.\install.ps1 -SkipConfirmation  # Skip prompts
+.\install.ps1 -Recover           # Restore from backup
 ```
 
 ## 🔍 Verify Installation
@@ -36,10 +110,22 @@ chmod +x install.sh
 After installation, run the verification script:
 
 ```bash
+# Linux/macOS
 ./verify.sh
+
+# Windows PowerShell
+.\verify.ps1
 ```
 
-This will check all installed tools and generate a system report.
+This will check all installed tools and generate a system report. You can also check the installation report:
+
+```bash
+# Linux/macOS
+cat ~/.devops-toolkit-install-report-*.txt
+
+# Windows PowerShell
+Get-Content ~\.devops-toolkit-install-report-*.txt
+```
 
 ## 🐳 Start Your Development Environment
 
@@ -66,32 +152,20 @@ This will check all installed tools and generate a system report.
 All tools are installed and configured on your local machine, ready for learning:
 
 ### Core Tools
-- **Docker** & **Docker Compose** - Containerization
 - **Git** - Version control with helpful aliases
-- **GitHub CLI** - GitHub integration
+- **Docker** & **Docker Compose** - Containerization platform
 
 ### Infrastructure Tools
 - **Terraform** - Infrastructure as Code
 - **Ansible** - Configuration management
-- **kubectl** - Kubernetes management
-- **Helm** - Kubernetes package manager
+- **Kubernetes (kubectl + Minikube)** - Container orchestration
 
 ### Cloud CLIs
 - **AWS CLI** - Amazon Web Services
 - **Azure CLI** - Microsoft Azure
-- **Google Cloud CLI** - Google Cloud Platform
 
 ### Development Tools
 - **VS Code** with DevOps extensions
-- **Node.js** - JavaScript runtime
-- **Python 3** - Python runtime
-
-### Utilities
-- **jq** - JSON processor
-- **curl** - HTTP client
-- **wget** - File downloader
-- **tree** - Directory structure viewer
-- **htop** - System monitor
 
 ## 🎯 First Steps
 
@@ -144,43 +218,49 @@ ansible-playbook -i inventory.ini playbook.yml
 
 ## 📚 Beginner Learning Path
 
-Follow this structured path designed specifically for DevOps beginners:
+Follow this structured path designed specifically for DevOps beginners with our focused toolset:
 
-### Week 1: Containerization Fundamentals
+### Week 1: Version Control & Containerization Fundamentals
+- [ ] Master Git workflows for beginners
 - [ ] Learn Docker basics for beginners
 - [ ] Create your first Dockerfile
 - [ ] Use Docker Compose for multi-container apps
 - [ ] Practice with the sample application
 
-### Week 2: Version Control & CI/CD Basics
-- [ ] Master Git workflows for beginners
-- [ ] Set up GitHub Actions
-- [ ] Learn about automated testing
-- [ ] Explore the CI/CD pipeline
-
-### Week 3: Infrastructure as Code Introduction
+### Week 2: Infrastructure as Code Introduction
 - [ ] Learn Terraform basics
 - [ ] Deploy infrastructure to AWS
 - [ ] Practice with Ansible
 - [ ] Understand configuration management
+- [ ] Create your first infrastructure templates
 
-### Week 4: Monitoring & Observability Basics
-- [ ] Set up Prometheus and Grafana
-- [ ] Learn about metrics and dashboards
-- [ ] Practice with logging (ELK stack)
-- [ ] Understand distributed tracing
-
-### Week 5: Kubernetes Fundamentals
+### Week 3: Kubernetes Fundamentals
 - [ ] Learn kubectl commands
+- [ ] Set up Minikube for local development
 - [ ] Deploy applications to Kubernetes
-- [ ] Use Helm for package management
-- [ ] Practice with microservices
+- [ ] Practice with container orchestration
+- [ ] Understand pods, services, and deployments
 
-### Week 6: Cloud Platforms Introduction
-- [ ] Explore AWS services
-- [ ] Try Azure resources
-- [ ] Learn Google Cloud Platform
+### Week 4: Cloud Platforms Introduction
+- [ ] Explore AWS services with AWS CLI
+- [ ] Try Azure resources with Azure CLI
+- [ ] Learn cloud resource management
 - [ ] Practice multi-cloud strategies
+- [ ] Understand cloud-native applications
+
+### Week 5: Advanced DevOps Practices
+- [ ] Integrate all tools in a complete workflow
+- [ ] Set up monitoring and logging
+- [ ] Practice with CI/CD pipelines
+- [ ] Learn about infrastructure automation
+- [ ] Build end-to-end DevOps solutions
+
+### Week 6: Real-World Projects
+- [ ] Build a complete microservices application
+- [ ] Deploy to cloud using Terraform
+- [ ] Configure with Ansible
+- [ ] Orchestrate with Kubernetes
+- [ ] Monitor and maintain the system
 
 ## 🔧 Configuration
 
@@ -190,7 +270,8 @@ The toolkit includes pre-configured VS Code settings and extensions. Your worksp
 - Kubernetes tools
 - Terraform support
 - YAML support
-- Python development tools
+- Git integration
+- Ansible support
 
 ### Git Configuration
 Git is pre-configured with helpful aliases:
