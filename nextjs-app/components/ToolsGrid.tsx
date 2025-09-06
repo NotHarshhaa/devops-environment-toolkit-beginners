@@ -103,12 +103,12 @@ const ToolsGrid = () => {
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 font-retro">
             <span className="neon-purple">
-              🛠️ Complete Tool Suite
+              🛠️ Essential Tools for Beginners
             </span>
           </h2>
           <p className="text-base md:text-xl text-retro-text-dim max-w-3xl mx-auto font-cyber">
-            Everything you need to start your DevOps journey. From containerization to monitoring, 
-            we&apos;ve got you covered with industry-standard tools.
+            Everything you need to start your DevOps learning journey. From containerization to monitoring, 
+            we&apos;ve got you covered with industry-standard tools configured for beginners.
           </p>
         </motion.div>
 

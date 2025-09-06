@@ -6,38 +6,38 @@ const Features = () => {
   const features = [
     {
       icon: Zap,
-      title: 'Lightning Fast Setup',
-      description: 'Get your entire DevOps environment running in under 5 minutes with our optimized installation scripts.',
+      title: 'Lightning Fast Local Setup',
+      description: 'Get your entire DevOps environment running on your local machine in under 5 minutes with our optimized installation scripts.',
       color: 'retro-yellow'
     },
     {
       icon: Shield,
-      title: 'Production Ready',
-      description: 'All tools come pre-configured with security best practices and production-ready settings.',
+      title: 'Beginner-Safe Configuration',
+      description: 'All tools come pre-configured with beginner-friendly settings and security best practices.',
       color: 'retro-green'
     },
     {
       icon: Clock,
-      title: 'Time Saving',
-      description: 'Skip weeks of manual configuration. Focus on building instead of setting up infrastructure.',
+      title: 'Skip the Setup Hassle',
+      description: 'Skip weeks of manual configuration and environment setup. Focus on learning DevOps instead of fighting with installations.',
       color: 'retro-cyan'
     },
     {
       icon: Users,
-      title: 'Team Friendly',
-      description: 'Consistent environments across your entire team. No more "works on my machine" issues.',
+      title: 'Learning Community',
+      description: 'Join thousands of beginners learning DevOps together. Consistent environments for collaborative learning.',
       color: 'retro-purple'
     },
     {
       icon: Code,
-      title: 'Developer First',
-      description: 'Built by developers, for developers. Every tool is configured with developer experience in mind.',
+      title: 'Beginner-First Design',
+      description: 'Built by DevOps practitioners, for beginners. Every tool is configured with learning and ease-of-use in mind.',
       color: 'retro-pink'
     },
     {
       icon: Database,
-      title: 'Comprehensive Stack',
-      description: 'From containers to monitoring, CI/CD to databases - everything you need in one toolkit.',
+      title: 'Complete Learning Stack',
+      description: 'From containers to monitoring, CI/CD to databases - everything you need to start your DevOps learning journey.',
       color: 'retro-orange'
     }
   ]
@@ -58,7 +58,7 @@ const Features = () => {
             </span>
           </h2>
           <p className="text-base md:text-xl text-retro-text-dim max-w-3xl mx-auto font-cyber">
-            Experience the power of modern DevOps tools with a retro-tech aesthetic that makes development feel like hacking the matrix.
+            Experience the power of modern DevOps tools with a beginner-friendly approach that makes learning feel effortless.
           </p>
         </motion.div>
 

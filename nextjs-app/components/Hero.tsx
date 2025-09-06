@@ -28,13 +28,13 @@ const Hero = () => {
               🚀 DevOps Environment
             </span>
             <span className="block neon-purple mt-2">
-              Toolkit
+              Toolkit for Beginners
             </span>
           </h1>
           
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-retro-text-dim mb-6 md:mb-8 max-w-3xl mx-auto font-cyber">
-            <span className="neon-green">One-click setup</span> for your DevOps journey. 
-            Get all essential tools installed and configured in minutes!
+            <span className="neon-green">One-click local setup</span> for your DevOps learning journey. 
+            Get all essential tools installed and configured on your local machine in minutes!
           </p>
         </motion.div>
 
@@ -76,8 +76,8 @@ const Hero = () => {
           
           <div className="card bg-retro-gray/80 backdrop-blur-sm border-retro-purple">
             <Star className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 md:mb-3 text-retro-yellow" />
-            <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 neon-purple font-retro">Beginner Friendly</h3>
-            <p className="text-sm md:text-base text-retro-text-dim font-cyber">Clear documentation and examples</p>
+            <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 neon-purple font-retro">Perfect for Beginners</h3>
+            <p className="text-sm md:text-base text-retro-text-dim font-cyber">Designed specifically for DevOps beginners</p>
           </div>
           
           <div className="card bg-retro-gray/80 backdrop-blur-sm border-retro-green sm:col-span-2 md:col-span-1">

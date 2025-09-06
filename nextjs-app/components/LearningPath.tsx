@@ -90,12 +90,12 @@ const LearningPath = () => {
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 font-retro">
             <span className="neon-yellow">
-              🎓 Learning Path
+              🎓 Beginner Learning Path
             </span>
           </h2>
           <p className="text-base md:text-xl text-retro-text-dim max-w-3xl mx-auto font-cyber">
-            Follow our structured 6-week learning path to master DevOps fundamentals. 
-            Each week builds upon the previous, taking you from beginner to confident practitioner.
+            Follow our structured 6-week learning path designed specifically for DevOps beginners. 
+            Each week builds upon the previous, taking you from complete beginner to confident practitioner.
           </p>
         </motion.div>
 
@@ -202,10 +202,10 @@ const LearningPath = () => {
         >
           <div className="card border-retro-cyan bg-retro-gray/80 backdrop-blur-sm max-w-2xl mx-auto">
             <h3 className="text-xl md:text-2xl font-bold text-retro-cyan mb-3 md:mb-4 font-retro">
-              Ready to Start Your Journey?
+              Ready to Start Your Learning Journey?
             </h3>
             <p className="text-sm md:text-base text-retro-text-dim mb-4 md:mb-6 font-cyber">
-              Join thousands of developers who have accelerated their DevOps learning with our toolkit.
+              Join thousands of DevOps beginners who have accelerated their learning with our toolkit.
             </p>
             <button className="btn-primary text-base md:text-lg px-6 md:px-8 py-3 md:py-4">
               Get Started Now
