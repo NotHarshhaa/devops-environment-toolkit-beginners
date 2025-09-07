@@ -1,5 +1,9 @@
 # 🚀 DevOps Environment Toolkit for Beginners
 
+<p align="left">
+  <img src="./nextjs-app/public/bannertoolkit.png" alt="DevOps Environment Toolkit Banner" width="840">
+</p>
+
 > **One-click setup for your DevOps learning journey** - Get all essential tools installed and configured on your local machine in minutes!
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
