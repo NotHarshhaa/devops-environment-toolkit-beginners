@@ -88,10 +88,10 @@ get_version() {
             ansible --version 2>/dev/null | head -n1 | sed 's/ansible //' | sed 's/ .*//'
             ;;
         "kubectl")
-            kubectl version --client 2>/dev/null | grep "Client Version" | sed 's/.*GitVersion:"v//' | sed 's/".*//'
+            kubectl version --client 2>/dev/null | grep "Client Version" | sed 's/.*GitVersion:"v//' | sed 's/".*//' || kubectl version --short 2>/dev/null | head -n1
             ;;
         "minikube")
-            minikube version 2>/dev/null | head -n1 | sed 's/minikube version: v//'
+            minikube version 2>/dev/null | head -n1 | sed 's/minikube version: v//' || minikube version 2>/dev/null | grep "minikube version" | sed 's/minikube version: v//'
             ;;
         "aws")
             aws --version 2>/dev/null | sed 's/aws-cli\///' | sed 's/ .*//'
@@ -188,7 +188,10 @@ check_system_resources() {
         local page_size=$(vm_stat | grep "page size" | awk '{print $8}')
         local free_pages=$(vm_stat | grep "Pages free" | awk '{print $3}' | sed 's/\.//')
         local total_pages=$(vm_stat | grep "Pages active" | awk '{print $3}' | sed 's/\.//')
-        log_info "Memory: Available (macOS - detailed check needed)"
+        local available_mem=$((free_pages * page_size / 1024 / 1024))
+        log_info "Memory: ${available_mem}MB available (macOS)"
+    else
+        log_info "Memory: Cannot determine available memory"
     fi
     
     # Check disk space
@@ -253,6 +256,8 @@ generate_report() {
         echo "System Resources:"
         if command -v free >/dev/null 2>&1; then
             free -h
+        elif command -v vm_stat >/dev/null 2>&1; then
+            vm_stat
         fi
         echo
         

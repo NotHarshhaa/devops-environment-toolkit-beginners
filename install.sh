@@ -167,15 +167,27 @@ validate_system() {
     fi
     
     # Check available memory (need at least 4GB)
-    local available_memory=$(free -m | awk 'NR==2{print $7}')
-    if [[ "$available_memory" -lt 4096 ]]; then
-        log_warning "Low available memory: ${available_memory}MB. Recommended: 4GB+"
+    if command -v free >/dev/null 2>&1; then
+        local available_memory=$(free -m | awk 'NR==2{print $7}')
+        if [[ "$available_memory" -lt 4096 ]]; then
+            log_warning "Low available memory: ${available_memory}MB. Recommended: 4GB+"
+        fi
+    elif command -v vm_stat >/dev/null 2>&1; then
+        # macOS memory check
+        local page_size=$(vm_stat | grep "page size" | awk '{print $8}')
+        local free_pages=$(vm_stat | grep "Pages free" | awk '{print $3}' | sed 's/\.//')
+        local available_memory=$((free_pages * page_size / 1024 / 1024))
+        if [[ "$available_memory" -lt 4096 ]]; then
+            log_warning "Low available memory: ${available_memory}MB. Recommended: 4GB+"
+        fi
+    else
+        log_warning "Cannot determine available memory"
     fi
     
     # Check internet connectivity
-    if ! ping -c 1 google.com &>/dev/null; then
-        log_error "No internet connection detected. This installer requires internet access."
-        return 1
+    if ! ping -c 1 google.com &>/dev/null 2>&1; then
+        log_warning "No internet connection detected. Some installations may fail."
+        log_info "Continuing with installation - some tools may need manual installation"
     fi
     
     # Check if running in a supported environment
@@ -476,13 +488,13 @@ install_docker() {
     
     if [[ "$OS" == "Ubuntu" ]] || [[ "$OS" == "Debian"* ]]; then
         # Remove old versions
-        sudo apt-get remove -y docker docker-engine docker.io containerd runc
+        sudo apt-get remove -y docker docker-engine docker.io containerd runc 2>/dev/null || true
         
         # Install Docker
         curl -fsSL https://get.docker.com -o get-docker.sh
         sudo sh get-docker.sh
         sudo usermod -aG docker $USER
-        rm get-docker.sh
+        rm -f get-docker.sh
         
     elif [[ "$OS" == "CentOS"* ]] || [[ "$OS" == "Red Hat"* ]] || [[ "$OS" == "Fedora"* ]]; then
         sudo yum install -y yum-utils
@@ -561,7 +573,7 @@ install_terraform() {
         wget https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
         unzip terraform_1.6.0_linux_amd64.zip
         sudo mv terraform /usr/local/bin/
-        rm terraform_1.6.0_linux_amd64.zip
+        rm -f terraform_1.6.0_linux_amd64.zip
     fi
     
     log_success "Terraform installed successfully"
@@ -581,7 +593,7 @@ install_kubectl() {
     else
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-        rm kubectl
+        rm -f kubectl
     fi
     
     log_success "kubectl installed successfully"
@@ -601,7 +613,7 @@ install_minikube() {
     else
         curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
         sudo install minikube-linux-amd64 /usr/local/bin/minikube
-        rm minikube-linux-amd64
+        rm -f minikube-linux-amd64
     fi
     
     log_success "Minikube installed successfully"
@@ -696,7 +708,7 @@ install_vscode() {
         sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
         sudo apt-get update
         sudo apt-get install -y code
-        rm packages.microsoft.gpg
+        rm -f packages.microsoft.gpg
     else
         log_warning "Please install VS Code manually for your OS"
     fi

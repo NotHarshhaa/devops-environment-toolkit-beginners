@@ -48,13 +48,25 @@ create_directories() {
 copy_configs() {
     log_info "Copying configuration files..."
     
+    # Get the script directory to ensure we're copying from the right location
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local project_root="$(dirname "$script_dir")"
+    
     # Copy Docker configurations
-    cp -r configs/docker/* ~/.devops-toolkit/configs/docker/ 2>/dev/null || true
+    if [[ -d "$project_root/configs/docker" ]]; then
+        cp -r "$project_root/configs/docker"/* ~/.devops-toolkit/configs/docker/ 2>/dev/null || true
+    else
+        log_warning "Docker configs directory not found at $project_root/configs/docker"
+    fi
     
     # Note: Terraform and Ansible configs removed for beginner focus
     
     # Copy VS Code configurations
-    cp -r configs/vscode/* ~/.devops-toolkit/configs/vscode/ 2>/dev/null || true
+    if [[ -d "$project_root/configs/vscode" ]]; then
+        cp -r "$project_root/configs/vscode"/* ~/.devops-toolkit/configs/vscode/ 2>/dev/null || true
+    else
+        log_warning "VS Code configs directory not found at $project_root/configs/vscode"
+    fi
     
     log_success "Configuration files copied successfully"
 }
@@ -63,8 +75,16 @@ copy_configs() {
 copy_templates() {
     log_info "Copying project templates..."
     
+    # Get the script directory to ensure we're copying from the right location
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local project_root="$(dirname "$script_dir")"
+    
     # Copy basic web app template
-    cp -r templates/basic-web-app/* ~/.devops-toolkit/templates/basic-web-app/ 2>/dev/null || true
+    if [[ -d "$project_root/templates/basic-web-app" ]]; then
+        cp -r "$project_root/templates/basic-web-app"/* ~/.devops-toolkit/templates/basic-web-app/ 2>/dev/null || true
+    else
+        log_warning "Basic web app template not found at $project_root/templates/basic-web-app"
+    fi
     
     # Note: Microservices and infrastructure templates removed for beginner focus
     
@@ -75,8 +95,16 @@ copy_templates() {
 copy_scripts() {
     log_info "Copying utility scripts..."
     
-    cp scripts/* ~/.devops-toolkit/scripts/ 2>/dev/null || true
-    chmod +x ~/.devops-toolkit/scripts/*.sh 2>/dev/null || true
+    # Get the script directory to ensure we're copying from the right location
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local project_root="$(dirname "$script_dir")"
+    
+    if [[ -d "$script_dir" ]]; then
+        cp "$script_dir"/* ~/.devops-toolkit/scripts/ 2>/dev/null || true
+        chmod +x ~/.devops-toolkit/scripts/*.sh 2>/dev/null || true
+    else
+        log_warning "Scripts directory not found at $script_dir"
+    fi
     
     log_success "Scripts copied successfully"
 }
@@ -113,7 +141,12 @@ create_sample_project() {
     cd "$project_dir"
     
     # Copy basic web app template
-    cp -r ~/.devops-toolkit/templates/basic-web-app/* .
+    if [[ -d ~/.devops-toolkit/templates/basic-web-app ]]; then
+        cp -r ~/.devops-toolkit/templates/basic-web-app/* .
+    else
+        log_error "Basic web app template not found in ~/.devops-toolkit/templates/basic-web-app"
+        return 1
+    fi
     
     # Initialize Git repository
     git init

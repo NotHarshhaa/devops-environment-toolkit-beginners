@@ -1,6 +1,24 @@
 -- DevOps Environment Toolkit - Database Initialization Script
 -- This script creates the necessary tables for the sample application
 
+-- Create database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS devops_toolkit;
+
+-- Use the database
+\c devops_toolkit;
+
+-- Create user if it doesn't exist
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'devops_user') THEN
+        CREATE ROLE devops_user LOGIN PASSWORD 'devops_password';
+    END IF;
+END
+$$;
+
+-- Grant privileges to the user
+GRANT ALL PRIVILEGES ON DATABASE devops_toolkit TO devops_user;
+
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
