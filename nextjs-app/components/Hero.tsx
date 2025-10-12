@@ -1,100 +1,226 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Rocket, Download, Star, Github, Terminal, Code } from 'lucide-react'
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  Rocket,
+  Download,
+  Github,
+  Terminal,
+  Shield,
+  Cloud,
+} from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="gradient-bg min-h-screen md:min-h-screen sm:min-h-[80vh] flex items-center justify-center px-4 pt-20 matrix-bg">
-      <div className="max-w-6xl mx-auto text-center relative z-10">
-        {/* Terminal-style header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-6 md:mb-8"
-        >
-          <div className="terminal mb-6 p-4 bg-retro-darker border border-retro-cyan">
-            <div className="flex items-center gap-2 mb-2">
-              <Terminal className="w-4 h-4 text-retro-green" />
-              <span className="text-retro-green text-sm font-mono">devops-toolkit@terminal:~$</span>
-            </div>
-            <div className="text-retro-cyan font-mono text-sm">
-              <span className="text-retro-green">$</span> ./install.sh --retro-mode
-            </div>
-          </div>
-          
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 md:mb-6 font-retro">
-            <span className="neon-cyan">
-              🚀 DevOps Environment
-            </span>
-            <span className="block neon-purple mt-2">
-              Toolkit for Beginners
-            </span>
-          </h1>
-          
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-retro-text-dim mb-6 md:mb-8 max-w-3xl mx-auto font-cyber">
-            <span className="neon-green">One-click local setup</span> for your DevOps learning journey. 
-            Get all essential tools installed and configured on your local machine in minutes!
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center mb-8 md:mb-12"
-        >
-          <a
-            href="#installation"
-            className="btn-primary text-sm sm:text-base md:text-lg px-6 md:px-8 py-3 md:py-4 flex items-center gap-2 hover:scale-105 transition-transform duration-300"
+    <section
+      id="hero"
+      className="modern-bg pt-32 pb-20 md:pt-40 md:pb-32 px-4 overflow-hidden"
+    >
+      <div className="max-w-6xl mx-auto relative">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="order-2 lg:order-1"
           >
-            <Download className="w-4 h-4 md:w-5 md:h-5" />
-            Install Now
-          </a>
-          <a
-            href="https://github.com/NotHarshhaa/devops-environment-toolkit-beginners"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary text-sm sm:text-base md:text-lg px-6 md:px-8 py-3 md:py-4 flex items-center gap-2 hover:scale-105 transition-transform duration-300"
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center gap-2 px-3 py-1 mb-6 bg-blue-50 dark:bg-blue-900/20 text-modern-primary dark:text-modern-dark-primary rounded-full border border-blue-100 dark:border-blue-800/50"
+            >
+              <span className="inline-block w-2 h-2 rounded-full bg-modern-primary dark:bg-modern-dark-primary"></span>
+              <span className="text-sm font-medium">
+                Version 2.0.2 Released
+              </span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-modern-text dark:text-modern-dark-text font-display"
+            >
+              <span className="block mb-2">Your complete</span>
+              <span className="gradient-text">DevOps Environment</span>
+              <span className="block mt-2">in one click.</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="text-lg text-modern-text-light dark:text-modern-dark-text-dim mb-8 max-w-lg"
+            >
+              Get all essential tools installed and configured on your local
+              machine in minutes! Perfect for beginners starting their DevOps
+              learning journey.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex flex-wrap gap-4"
+            >
+              <a
+                href="#installation"
+                className="btn-primary flex items-center gap-2"
+              >
+                <Download className="w-5 h-5" />
+                Install Now
+              </a>
+              <a
+                href="https://github.com/NotHarshhaa/devops-environment-toolkit-beginners"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline flex items-center gap-2"
+              >
+                <Github className="w-5 h-5" />
+                View on GitHub
+              </a>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="order-1 lg:order-2 flex justify-center"
           >
-            <Github className="w-4 h-4 md:w-5 md:h-5" />
-            View on GitHub
-          </a>
-        </motion.div>
+            {/* Terminal demo display */}
+            <div className="w-full max-w-lg rounded-lg overflow-hidden shadow-xl relative bg-modern-darker border border-modern-dark-border">
+              {/* Terminal header */}
+              <div className="bg-gray-800 py-2 px-4 flex items-center gap-2">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div className="ml-4 text-xs text-gray-400 font-mono flex-grow text-center">
+                  ~/devops-toolkit
+                </div>
+              </div>
 
+              {/* Terminal content */}
+              <div className="p-6 text-green-400 font-mono text-sm">
+                <div className="flex items-start mb-4">
+                  <span className="text-green-600 mr-2">$</span>
+                  <div>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3, delay: 0.8 }}
+                    >
+                      <span className="text-white">./install.sh</span>
+                    </motion.div>
+                  </div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 1.1 }}
+                  className="ml-4 mb-3 text-gray-400"
+                >
+                  ✓ Checking system compatibility...
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 1.4 }}
+                  className="ml-4 mb-3 text-gray-400"
+                >
+                  ✓ Docker installed successfully
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 1.7 }}
+                  className="ml-4 mb-3 text-gray-400"
+                >
+                  ✓ Kubernetes tools configured
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 2.0 }}
+                  className="ml-4 mb-3 text-gray-400"
+                >
+                  ✓ Terraform installation complete
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 2.3 }}
+                  className="ml-4 text-modern-success"
+                >
+                  ➤ All tools installed successfully! Ready to go.
+                </motion.div>
+              </div>
+
+              {/* Reflection effect */}
+              <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-transparent pointer-events-none"></div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Feature cards */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-20"
         >
-          <div className="card bg-retro-gray/80 backdrop-blur-sm border-retro-cyan">
-            <Rocket className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 md:mb-3 text-retro-yellow" />
-            <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 neon-cyan font-retro">Lightning Fast</h3>
-            <p className="text-sm md:text-base text-retro-text-dim font-cyber">Optimized installation process</p>
+          <div className="feature-card">
+            <div className="feature-icon">
+              <Rocket className="w-7 h-7" />
+            </div>
+            <h3 className="text-lg font-semibold text-modern-text dark:text-modern-dark-text">
+              Quick Setup
+            </h3>
+            <p className="text-modern-text-light dark:text-modern-dark-text-dim">
+              Get up and running in minutes with our automated installer
+            </p>
           </div>
-          
-          <div className="card bg-retro-gray/80 backdrop-blur-sm border-retro-purple">
-            <Star className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 md:mb-3 text-retro-yellow" />
-            <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 neon-purple font-retro">Perfect for Beginners</h3>
-            <p className="text-sm md:text-base text-retro-text-dim font-cyber">Designed specifically for DevOps beginners</p>
+
+          <div className="feature-card">
+            <div className="feature-icon">
+              <Shield className="w-7 h-7" />
+            </div>
+            <h3 className="text-lg font-semibold text-modern-text dark:text-modern-dark-text">
+              Best Practices
+            </h3>
+            <p className="text-modern-text-light dark:text-modern-dark-text-dim">
+              Configured according to industry security and performance
+              standards
+            </p>
           </div>
-          
-          <div className="card bg-retro-gray/80 backdrop-blur-sm border-retro-green sm:col-span-2 md:col-span-1">
-            <Code className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 md:mb-3 text-retro-yellow" />
-            <h3 className="text-base md:text-lg font-semibold mb-1 md:mb-2 neon-green font-retro">One-Click Setup</h3>
-            <p className="text-sm md:text-base text-retro-text-dim font-cyber">Automated setup for all platforms</p>
+
+          <div className="feature-card">
+            <div className="feature-icon">
+              <Cloud className="w-7 h-7" />
+            </div>
+            <h3 className="text-lg font-semibold text-modern-text dark:text-modern-dark-text">
+              Cloud Ready
+            </h3>
+            <p className="text-modern-text-light dark:text-modern-dark-text-dim">
+              Includes tools for working with all major cloud providers
+            </p>
           </div>
         </motion.div>
 
-        {/* Retro-tech decorative elements */}
-        <div className="absolute top-10 left-10 w-2 h-2 bg-retro-cyan animate-pulse-neon"></div>
-        <div className="absolute top-20 right-20 w-1 h-1 bg-retro-purple animate-pulse-neon"></div>
-        <div className="absolute bottom-20 left-20 w-1 h-1 bg-retro-green animate-pulse-neon"></div>
-        <div className="absolute bottom-10 right-10 w-2 h-2 bg-retro-pink animate-pulse-neon"></div>
+        {/* Background decorative elements */}
+        <div className="hidden lg:block absolute -top-20 -right-20 w-64 h-64 bg-modern-primary/5 dark:bg-modern-primary/10 rounded-full blur-3xl"></div>
+        <div className="hidden lg:block absolute top-40 -left-20 w-72 h-72 bg-modern-secondary/5 dark:bg-modern-secondary/10 rounded-full blur-3xl"></div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;
