@@ -185,9 +185,24 @@ validate_system() {
     fi
     
     # Check internet connectivity
-    if ! ping -c 1 google.com &>/dev/null 2>&1; then
-        log_warning "No internet connection detected. Some installations may fail."
-        log_info "Continuing with installation - some tools may need manual installation"
+    log_info "Checking internet connectivity..."
+    if command -v curl >/dev/null 2>&1; then
+        if ! curl -s --connect-timeout 5 https://www.google.com > /dev/null 2>&1; then
+            log_warning "No internet connection detected. Some installations may fail."
+            log_info "Continuing with installation - some tools may need manual installation"
+        fi
+    elif command -v wget >/dev/null 2>&1; then
+        if ! wget -q --spider --timeout=5 https://www.google.com 2>&1; then
+            log_warning "No internet connection detected. Some installations may fail."
+            log_info "Continuing with installation - some tools may need manual installation"
+        fi
+    elif command -v ping >/dev/null 2>&1; then
+        if ! ping -c 1 -W 2 8.8.8.8 &>/dev/null; then
+            log_warning "No internet connection detected. Some installations may fail."
+            log_info "Continuing with installation - some tools may need manual installation"
+        fi
+    else
+        log_warning "Cannot verify internet connectivity. Proceeding with installation."
     fi
     
     # Check if running in a supported environment
@@ -480,7 +495,8 @@ install_package_manager() {
 # Install Docker
 install_docker() {
     if command_exists docker; then
-        log_info "Docker is already installed"
+        local docker_version=$(docker --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+' | head -1)
+        log_info "Docker is already installed (version: ${docker_version:-unknown})"
         return
     fi
     
@@ -515,7 +531,8 @@ install_docker() {
 # Install Docker Compose
 install_docker_compose() {
     if command_exists docker-compose; then
-        log_info "Docker Compose is already installed"
+        local compose_version=$(docker-compose --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+' | head -1)
+        log_info "Docker Compose is already installed (version: ${compose_version:-unknown})"
         return
     fi
     
@@ -524,8 +541,13 @@ install_docker_compose() {
     if [[ "$OS" == "macOS" ]]; then
         brew install docker-compose
     else
-        sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
+        log_debug "Downloading latest Docker Compose..."
+        if sudo curl -fsSL "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose; then
+            sudo chmod +x /usr/local/bin/docker-compose
+        else
+            log_error "Failed to download Docker Compose. Please install manually."
+            return 1
+        fi
     fi
     
     log_success "Docker Compose installed successfully"
@@ -561,7 +583,8 @@ install_git() {
 # Install Terraform (basic version for learning)
 install_terraform() {
     if command_exists terraform; then
-        log_info "Terraform is already installed"
+        local tf_version=$(terraform --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+\.\d+' | head -1)
+        log_info "Terraform is already installed (version: ${tf_version:-unknown})"
         return
     fi
     
@@ -570,10 +593,17 @@ install_terraform() {
     if [[ "$OS" == "macOS" ]]; then
         brew install terraform
     else
-        wget https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
-        unzip terraform_1.6.0_linux_amd64.zip
-        sudo mv terraform /usr/local/bin/
-        rm -f terraform_1.6.0_linux_amd64.zip
+        local TERRAFORM_VERSION="1.7.0"
+        log_debug "Downloading Terraform version $TERRAFORM_VERSION..."
+        if wget -q "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" -O terraform.zip; then
+            unzip -q terraform.zip
+            sudo mv terraform /usr/local/bin/
+            sudo chmod +x /usr/local/bin/terraform
+            rm -f terraform.zip
+        else
+            log_error "Failed to download Terraform. Please install manually."
+            return 1
+        fi
     fi
     
     log_success "Terraform installed successfully"
@@ -582,7 +612,8 @@ install_terraform() {
 # Install kubectl
 install_kubectl() {
     if command_exists kubectl; then
-        log_info "kubectl is already installed"
+        local kubectl_version=$(kubectl version --client 2>/dev/null | grep -oP 'GitVersion:"v\K[^"]+' | head -1)
+        log_info "kubectl is already installed (version: ${kubectl_version:-unknown})"
         return
     fi
     
@@ -591,9 +622,15 @@ install_kubectl() {
     if [[ "$OS" == "macOS" ]]; then
         brew install kubectl
     else
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-        rm -f kubectl
+        log_debug "Fetching latest kubectl version..."
+        local KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt 2>/dev/null || echo "v1.29.0")
+        if curl -fsSLO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"; then
+            sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+            rm -f kubectl
+        else
+            log_error "Failed to download kubectl. Please install manually."
+            return 1
+        fi
     fi
     
     log_success "kubectl installed successfully"

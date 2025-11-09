@@ -86,59 +86,65 @@ function Get-CommandVersion {
         switch ($Command) {
             "docker" {
                 $version = docker --version 2>$null
-                if ($version) {
-                    return ($version -replace "Docker version ", "" -replace ",.*", "").Trim()
+                if ($version -match '(\d+\.\d+\.\d+)') {
+                    return $Matches[1]
                 }
             }
             "docker-compose" {
                 $version = docker-compose --version 2>$null
-                if ($version) {
-                    return ($version -replace "docker-compose version ", "" -replace ",.*", "").Trim()
+                if ($version -match '(\d+\.\d+\.\d+)') {
+                    return $Matches[1]
                 }
             }
             "git" {
                 $version = git --version 2>$null
-                if ($version) {
-                    return ($version -replace "git version ", "").Trim()
+                if ($version -match '(\d+\.\d+\.\d+)') {
+                    return $Matches[1]
                 }
             }
             "terraform" {
                 $version = terraform --version 2>$null
-                if ($version) {
-                    return ($version -replace "Terraform v", "").Trim()
+                if ($version -match 'Terraform v(\d+\.\d+\.\d+)') {
+                    return $Matches[1]
                 }
             }
             "ansible" {
                 $version = ansible --version 2>$null
-                if ($version) {
-                    return ($version -replace "ansible ", "" -replace " .*", "").Trim()
+                if ($version -match '(\d+\.\d+\.\d+)') {
+                    return $Matches[1]
                 }
             }
             "kubectl" {
                 $version = kubectl version --client 2>$null
-                if ($version) {
-                    $match = $version | Select-String "Client Version.*GitVersion.*v([^\"]+)"
-                    if ($match) {
-                        return $match.Matches[0].Groups[1].Value
-                    }
+                if ($version -match 'GitVersion:"v([\d.]+)') {
+                    return $Matches[1]
+                }
+                # Try alternative format
+                if ($version -match '(\d+\.\d+\.\d+)') {
+                    return $Matches[1]
                 }
             }
             "minikube" {
                 $version = minikube version 2>$null
-                if ($version) {
-                    return ($version -replace "minikube version: v", "").Trim()
+                if ($version -match 'v([\d.]+)') {
+                    return $Matches[1]
                 }
             }
             "aws" {
                 $version = aws --version 2>$null
-                if ($version) {
-                    return ($version -replace "aws-cli/", "" -replace " .*", "").Trim()
+                if ($version -match 'aws-cli/([\d.]+)') {
+                    return $Matches[1]
                 }
             }
             "az" {
+                $version = az version 2>$null | ConvertFrom-Json -ErrorAction SilentlyContinue
+                if ($version.'azure-cli') {
+                    return $version.'azure-cli'
+                }
+                # Fallback to --version
                 $version = az --version 2>$null
-                if ($version) {
-                    return ($version -replace "azure-cli ", "").Trim()
+                if ($version -match '(\d+\.\d+\.\d+)') {
+                    return $Matches[1]
                 }
             }
             "code" {
@@ -150,6 +156,9 @@ function Get-CommandVersion {
             default {
                 try {
                     $version = & $Command --version 2>$null
+                    if ($version -match '(\d+\.\d+\.\d+)') {
+                        return $Matches[1]
+                    }
                     if ($version) {
                         return $version.Split("`n")[0].Trim()
                     }
@@ -170,10 +179,13 @@ function Test-DockerDaemon {
         if (Get-Command docker -ErrorAction SilentlyContinue) {
             $dockerInfo = docker info 2>$null
             if ($LASTEXITCODE -eq 0) {
-                Write-Success "Docker daemon: Running"
+                $containersRunning = (docker ps -q 2>$null | Measure-Object).Count
+                $imagesCount = (docker images -q 2>$null | Measure-Object).Count
+                Write-Success "Docker daemon: Running (Containers: $containersRunning, Images: $imagesCount)"
                 return $true
             } else {
-                Write-Warning "Docker daemon: Not running (start Docker Desktop)"
+                Write-Warning "Docker daemon: Not running"
+                Write-Info "  Start Docker Desktop application"
                 return $false
             }
         } else {
@@ -181,7 +193,8 @@ function Test-DockerDaemon {
             return $false
         }
     } catch {
-        Write-Warning "Docker daemon: Not running (start Docker Desktop)"
+        Write-Warning "Docker daemon: Not running"
+        Write-Info "  Start Docker Desktop application"
         return $false
     }
 }
@@ -252,27 +265,41 @@ function Test-SystemResources {
         $memory = Get-WmiObject -Class Win32_OperatingSystem
         $totalMemory = [math]::Round($memory.TotalVisibleMemorySize / 1MB, 2)
         $freeMemory = [math]::Round($memory.FreePhysicalMemory / 1MB, 2)
-        Write-Info "Memory: $freeMemory GB available of $totalMemory GB total"
+        $usedMemory = [math]::Round($totalMemory - $freeMemory, 2)
+        $memoryPercent = [math]::Round(($usedMemory / $totalMemory) * 100, 1)
+        Write-Info "Memory: $usedMemory GB used, $freeMemory GB available of $totalMemory GB total ($memoryPercent% used)"
     } catch {
-        Write-Info "Memory: Unable to determine"
+        Write-Warning "Memory: Unable to determine"
     }
     
     # Check disk space
     try {
         $disk = Get-WmiObject -Class Win32_LogicalDisk -Filter "DeviceID='C:'"
+        $totalSpace = [math]::Round($disk.Size / 1GB, 2)
         $freeSpace = [math]::Round($disk.FreeSpace / 1GB, 2)
-        Write-Info "Disk space: $freeSpace GB available on C:"
+        $usedSpace = [math]::Round($totalSpace - $freeSpace, 2)
+        $diskPercent = [math]::Round(($usedSpace / $totalSpace) * 100, 1)
+        Write-Info "Disk space: $usedSpace GB used, $freeSpace GB available of $totalSpace GB total ($diskPercent% used)"
     } catch {
-        Write-Info "Disk space: Unable to determine"
+        Write-Warning "Disk space: Unable to determine"
     }
     
     # Check CPU cores
     try {
         $cpu = Get-WmiObject -Class Win32_Processor
         $cpuCores = $cpu.NumberOfCores
-        Write-Info "CPU cores: $cpuCores"
+        $cpuThreads = $cpu.NumberOfLogicalProcessors
+        Write-Info "CPU: $cpuCores cores, $cpuThreads logical processors"
     } catch {
-        Write-Info "CPU cores: Unable to determine"
+        Write-Warning "CPU: Unable to determine"
+    }
+    
+    # Check Windows version
+    try {
+        $os = Get-WmiObject -Class Win32_OperatingSystem
+        Write-Info "OS: $($os.Caption) (Build: $($os.BuildNumber))"
+    } catch {
+        Write-Warning "OS: Unable to determine"
     }
 }
 

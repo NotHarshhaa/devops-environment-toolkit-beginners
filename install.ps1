@@ -185,12 +185,25 @@ function Test-SystemCompatibility {
     }
     
     # Check internet connectivity
+    Write-Info "Checking internet connectivity..."
     try {
-        $null = Test-NetConnection -ComputerName "google.com" -Port 80 -InformationLevel Quiet
+        $testConnection = Test-Connection -ComputerName "8.8.8.8" -Count 1 -Quiet -ErrorAction SilentlyContinue
+        if (-not $testConnection) {
+            # Try alternative method
+            try {
+                $webRequest = Invoke-WebRequest -Uri "https://www.google.com" -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
+                if ($webRequest.StatusCode -ne 200) {
+                    Write-Warning "Internet connection may be unstable. Some installations may fail."
+                }
+            }
+            catch {
+                Write-Warning "No internet connection detected. Some installations may fail."
+                Write-Info "Continuing with installation - some tools may need manual installation"
+            }
+        }
     }
     catch {
-        Write-Error "No internet connection detected. This installer requires internet access."
-        return $false
+        Write-Warning "Cannot verify internet connectivity. Proceeding with installation."
     }
     
     # Check Windows version
@@ -413,8 +426,13 @@ function Invoke-Command {
 # Check if command exists
 function Test-CommandExists {
     param([string]$Command)
-    $null = Get-Command $Command -ErrorAction SilentlyContinue
-    return $?
+    try {
+        $null = Get-Command $Command -ErrorAction Stop
+        return $true
+    }
+    catch {
+        return $false
+    }
 }
 
 # Install Chocolatey if not present
@@ -438,7 +456,13 @@ function Install-Chocolatey {
 # Install Git
 function Install-Git {
     if (Test-CommandExists "git") {
-        Write-Info "Git is already installed"
+        $gitVersion = git --version 2>$null
+        if ($gitVersion) {
+            $version = ($gitVersion -replace "git version ", "").Trim()
+            Write-Info "Git is already installed (version: $version)"
+        } else {
+            Write-Info "Git is already installed"
+        }
     } else {
         Write-Info "Installing Git..."
         choco install git -y
@@ -461,15 +485,26 @@ function Install-Git {
 # Install Docker Desktop
 function Install-DockerDesktop {
     if (Test-CommandExists "docker") {
-        Write-Info "Docker is already installed"
+        $dockerVersion = docker --version 2>$null
+        if ($dockerVersion) {
+            $version = ($dockerVersion -replace "Docker version ", "" -replace ",.*", "").Trim()
+            Write-Info "Docker is already installed (version: $version)"
+        } else {
+            Write-Info "Docker is already installed"
+        }
         return
     }
     
     Write-Info "Installing Docker Desktop..."
-    choco install docker-desktop -y
-    
-    Write-Warning "Please restart your computer and start Docker Desktop manually after installation"
-    Write-Success "Docker Desktop installed successfully"
+    try {
+        choco install docker-desktop -y
+        Write-Warning "Please restart your computer and start Docker Desktop manually after installation"
+        Write-Success "Docker Desktop installed successfully"
+    }
+    catch {
+        Write-Error "Failed to install Docker Desktop: $($_.Exception.Message)"
+        Write-Warning "Please install Docker Desktop manually from https://www.docker.com/products/docker-desktop"
+    }
 }
 
 # Install VS Code
@@ -514,27 +549,54 @@ function Install-Ansible {
 # Install Terraform (basic version for learning)
 function Install-Terraform {
     if (Test-CommandExists "terraform") {
-        Write-Info "Terraform is already installed"
+        $tfVersion = terraform --version 2>$null
+        if ($tfVersion) {
+            $version = ($tfVersion -replace "Terraform v", "").Trim().Split("`n")[0]
+            Write-Info "Terraform is already installed (version: $version)"
+        } else {
+            Write-Info "Terraform is already installed"
+        }
         return
     }
     
     Write-Info "Installing Terraform..."
-    choco install terraform -y
-    
-    Write-Success "Terraform installed successfully"
+    try {
+        choco install terraform -y
+        Write-Success "Terraform installed successfully"
+    }
+    catch {
+        Write-Error "Failed to install Terraform: $($_.Exception.Message)"
+        Write-Warning "Please install Terraform manually from https://www.terraform.io/downloads"
+    }
 }
 
 # Install kubectl
 function Install-Kubectl {
     if (Test-CommandExists "kubectl") {
-        Write-Info "kubectl is already installed"
+        $kubectlVersion = kubectl version --client 2>$null
+        if ($kubectlVersion) {
+            $match = $kubectlVersion | Select-String "GitVersion.*v([0-9.]+)"
+            if ($match) {
+                $version = $match.Matches[0].Groups[1].Value
+                Write-Info "kubectl is already installed (version: $version)"
+            } else {
+                Write-Info "kubectl is already installed"
+            }
+        } else {
+            Write-Info "kubectl is already installed"
+        }
         return
     }
     
     Write-Info "Installing kubectl..."
-    choco install kubernetes-cli -y
-    
-    Write-Success "kubectl installed successfully"
+    try {
+        choco install kubernetes-cli -y
+        Write-Success "kubectl installed successfully"
+    }
+    catch {
+        Write-Error "Failed to install kubectl: $($_.Exception.Message)"
+        Write-Warning "Please install kubectl manually from https://kubernetes.io/docs/tasks/tools/"
+    }
 }
 
 

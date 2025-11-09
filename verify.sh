@@ -71,51 +71,72 @@ check_command() {
 # Get version of a command
 get_version() {
     local cmd=$1
+    local version=""
+    
     case $cmd in
         "docker")
-            docker --version 2>/dev/null | head -n1 | sed 's/Docker version //' | sed 's/,.*//'
+            version=$(docker --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+' | head -1)
             ;;
         "docker-compose")
-            docker-compose --version 2>/dev/null | sed 's/docker-compose version //' | sed 's/,.*//'
+            version=$(docker-compose --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+' | head -1)
             ;;
         "git")
-            git --version 2>/dev/null | sed 's/git version //'
+            version=$(git --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+' | head -1)
             ;;
         "terraform")
-            terraform --version 2>/dev/null | head -n1 | sed 's/Terraform v//'
+            version=$(terraform --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+\.\d+' | head -1)
             ;;
         "ansible")
-            ansible --version 2>/dev/null | head -n1 | sed 's/ansible //' | sed 's/ .*//'
+            version=$(ansible --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+\.\d+' | head -1)
             ;;
         "kubectl")
-            kubectl version --client 2>/dev/null | grep "Client Version" | sed 's/.*GitVersion:"v//' | sed 's/".*//' || kubectl version --short 2>/dev/null | head -n1
+            version=$(kubectl version --client 2>/dev/null | grep -oP 'GitVersion:"v\K[^"]+' | head -1)
+            if [[ -z "$version" ]]; then
+                version=$(kubectl version --client --short 2>/dev/null | grep -oP '\d+\.\d+\.\d+' | head -1)
+            fi
             ;;
         "minikube")
-            minikube version 2>/dev/null | head -n1 | sed 's/minikube version: v//' || minikube version 2>/dev/null | grep "minikube version" | sed 's/minikube version: v//'
+            version=$(minikube version 2>/dev/null | grep -oP 'v\K[0-9.]+' | head -1)
             ;;
         "aws")
-            aws --version 2>/dev/null | sed 's/aws-cli\///' | sed 's/ .*//'
+            version=$(aws --version 2>/dev/null | grep -oP 'aws-cli/\K[0-9.]+' | head -1)
             ;;
         "az")
-            az --version 2>/dev/null | head -n1 | sed 's/azure-cli //'
+            version=$(az version 2>/dev/null | grep -oP '"azure-cli": "\K[^"]+' | head -1)
+            if [[ -z "$version" ]]; then
+                version=$(az --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+\.\d+' | head -1)
+            fi
             ;;
         "code")
-            code --version 2>/dev/null | head -n1
+            version=$(code --version 2>/dev/null | head -1)
             ;;
         *)
-            $cmd --version 2>/dev/null | head -n1 || echo "Unknown"
+            version=$($cmd --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+\.\d+' | head -1)
             ;;
     esac
+    
+    if [[ -n "$version" ]]; then
+        echo "$version"
+    else
+        echo "Unknown"
+    fi
 }
 
 # Check Docker daemon status
 check_docker_daemon() {
     if command -v docker >/dev/null 2>&1; then
         if docker info >/dev/null 2>&1; then
-            log_success "Docker daemon: Running"
+            local containers_running=$(docker ps -q 2>/dev/null | wc -l)
+            local images_count=$(docker images -q 2>/dev/null | wc -l)
+            log_success "Docker daemon: Running (Containers: $containers_running, Images: $images_count)"
             return 0
         else
-            log_warning "Docker daemon: Not running (start with 'sudo systemctl start docker' or start Docker Desktop)"
+            log_warning "Docker daemon: Not running"
+            if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+                log_info "  Start with: sudo systemctl start docker"
+            elif [[ "$OSTYPE" == "darwin"* ]]; then
+                log_info "  Start Docker Desktop application"
+            fi
             return 1
         fi
     else
@@ -182,25 +203,37 @@ check_system_resources() {
     if command -v free >/dev/null 2>&1; then
         local total_mem=$(free -h | awk '/^Mem:/ {print $2}')
         local available_mem=$(free -h | awk '/^Mem:/ {print $7}')
-        log_info "Memory: $available_mem available of $total_mem total"
+        local used_mem=$(free -h | awk '/^Mem:/ {print $3}')
+        log_info "Memory: $used_mem used, $available_mem available of $total_mem total"
     elif command -v vm_stat >/dev/null 2>&1; then
         # macOS
         local page_size=$(vm_stat | grep "page size" | awk '{print $8}')
         local free_pages=$(vm_stat | grep "Pages free" | awk '{print $3}' | sed 's/\.//')
-        local total_pages=$(vm_stat | grep "Pages active" | awk '{print $3}' | sed 's/\.//')
         local available_mem=$((free_pages * page_size / 1024 / 1024))
         log_info "Memory: ${available_mem}MB available (macOS)"
     else
-        log_info "Memory: Cannot determine available memory"
+        log_warning "Memory: Cannot determine available memory"
     fi
     
     # Check disk space
-    local disk_usage=$(df -h / | awk 'NR==2 {print $4}')
-    log_info "Disk space: $disk_usage available"
+    if command -v df >/dev/null 2>&1; then
+        local disk_usage=$(df -h / | awk 'NR==2 {print $4}')
+        local disk_used=$(df -h / | awk 'NR==2 {print $3}')
+        local disk_total=$(df -h / | awk 'NR==2 {print $2}')
+        log_info "Disk space: $disk_used used, $disk_usage available of $disk_total total"
+    else
+        log_warning "Disk space: Cannot determine disk usage"
+    fi
     
     # Check CPU cores
     local cpu_cores=$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo "Unknown")
     log_info "CPU cores: $cpu_cores"
+    
+    # Check load average (Linux only)
+    if [[ -f /proc/loadavg ]]; then
+        local load_avg=$(cat /proc/loadavg | awk '{print $1, $2, $3}')
+        log_info "Load average (1m, 5m, 15m): $load_avg"
+    fi
 }
 
 # Generate system report
